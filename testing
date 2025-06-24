@@ -427,3 +427,8 @@ local easeStyle = Enum.EasingStyle.Back or Enum.EasingStyle.Quint
 Please, Donate! Visual
 
 -----------------------------------------------
+v14:Notify({
+    Title = "FahtX Hub V2",
+    Content = "Done!",
+    Duration = 10
+});
