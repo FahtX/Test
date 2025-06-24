@@ -310,15 +310,42 @@ v5:Destroy();
 --     end
 -- end);
 
-local Spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/drkwow/depression/refs/heads/main/Spawner.lua"))()
-Spawner.GetPets() -- Returns a table of supported pets
-Spawner.GetSeeds() -- Returns a table of supported seeds 
-Spawner.SpawnPet("Raccoon", 1, 2) -- Spawns a Raccoon with 1 KG and 2 Age
-Spawner.SpawnSeed("Candy Blossom") -- Spawns Candy Blossom
-Spawner.SpawnEgg("Night Egg") -- Spawns Night Egg
-Spawner.Spin("Sunflower") -- Spins Sunflower
-Spawner.Load() -- Loads the Default UI
-v14:Notify({
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local HatchEgg = ReplicatedStorage:WaitForChild("HatchEgg")
+local Pets = ReplicatedStorage:WaitForChild("Pets")
+local Egg = ReplicatedStorage:WaitForChild("Egg")
+local Seed = ReplicatedStorage:WaitForChild("Seed")
+
+HatchEgg.OnServerEvent:Connect(function(player)
+    local character = player.Character
+    if not character then return end
+
+    -- Tạo egg model
+    local eggClone = Egg:Clone()
+    eggClone.Parent = workspace
+    eggClone.Position = character.HumanoidRootPart.Position + Vector3.new(0, 5, 0)
+
+    wait(2) -- animation chờ nở
+
+    -- Xoá egg
+    eggClone:Destroy()
+
+    -- Spawn pet
+    local pet = Pets:FindFirstChild("Bunny"):Clone()
+    pet.Parent = workspace
+    pet:SetPrimaryPartCFrame(character.HumanoidRootPart.CFrame * CFrame.new(2, 2, 0))
+
+    -- Pet theo người chơi
+    local runService = game:GetService("RunService")
+    runService.Stepped:Connect(function()
+        if player.Character and pet and pet.PrimaryPart then
+            local hrp = player.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                pet:SetPrimaryPartCFrame(hrp.CFrame * CFrame.new(2, 2, 0))
+            end
+        end
+    end)
+end)v14:Notify({
     Title = "FahtX Hub V2",
     Content = "Done!",
     Duration = 10
