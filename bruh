@@ -1,0 +1,148 @@
+-- Gag Trade Scam GUI Script (Fake GUI for visuals only)
+-- By MozilOnTop (Upgraded)
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "GagTradeScamUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = PlayerGui
+
+-- Main Frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 300, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.BorderSizePixel = 0
+mainFrame.Name = "MainFrame"
+mainFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 8)
+corner.Parent = mainFrame
+
+-- Close Button
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 24, 0, 24)
+closeBtn.Position = UDim2.new(1, -28, 0, 4)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeBtn.Parent = mainFrame
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Text = "🦜 GAG TRADE SCAM 🌶"
+title.Size = UDim2.new(1, -10, 0, 30)
+title.Position = UDim2.new(0, 5, 0, 5)
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = mainFrame
+
+-- Player Selector Frame
+local selectorFrame = Instance.new("TextButton")
+selectorFrame.Size = UDim2.new(0.95, 0, 0, 40)
+selectorFrame.Position = UDim2.new(0.025, 0, 0, 40)
+selectorFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+selectorFrame.AutoButtonColor = false
+selectorFrame.Text = ""
+selectorFrame.Parent = mainFrame
+
+local avatar = Instance.new("ImageLabel")
+avatar.Size = UDim2.new(0, 32, 0, 32)
+avatar.Position = UDim2.new(0, 4, 0.5, -16)
+avatar.BackgroundTransparency = 1
+avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=100&h=100"
+avatar.Parent = selectorFrame
+
+local playerName = Instance.new("TextLabel")
+playerName.Size = UDim2.new(1, -42, 1, 0)
+playerName.Position = UDim2.new(0, 42, 0, 0)
+playerName.BackgroundTransparency = 1
+playerName.Text = LocalPlayer.Name
+playerName.TextColor3 = Color3.new(1, 1, 1)
+playerName.Font = Enum.Font.Gotham
+playerName.TextSize = 14
+playerName.TextXAlignment = Enum.TextXAlignment.Left
+playerName.Parent = selectorFrame
+
+-- Dropdown
+local dropdown = Instance.new("Frame")
+dropdown.Size = UDim2.new(0.95, 0, 0, 120)
+dropdown.Position = UDim2.new(0.025, 0, 0, 80)
+dropdown.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+dropdown.Visible = false
+dropdown.ClipsDescendants = true
+dropdown.Parent = mainFrame
+
+local dropdownCorner = Instance.new("UICorner")
+dropdownCorner.CornerRadius = UDim.new(0, 6)
+dropdownCorner.Parent = dropdown
+
+local uiList = Instance.new("UIListLayout")
+uiList.SortOrder = Enum.SortOrder.LayoutOrder
+uiList.Padding = UDim.new(0, 2)
+uiList.Parent = dropdown
+
+-- Dropdown logic
+local function updateDropdown()
+    for _, child in pairs(dropdown:GetChildren()) do
+        if child:IsA("TextButton") or child:IsA("Frame") then
+            child:Destroy()
+        end
+    end
+
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer then
+            local option = Instance.new("Frame")
+            option.Size = UDim2.new(1, -10, 0, 36)
+            option.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            option.Parent = dropdown
+
+            local corner = Instance.new("UICorner")
+            corner.CornerRadius = UDim.new(0, 4)
+            corner.Parent = option
+
+            local avatarImg = Instance.new("ImageLabel")
+            avatarImg.Size = UDim2.new(0, 28, 0, 28)
+            avatarImg.Position = UDim2.new(0, 4, 0.5, -14)
+            avatarImg.BackgroundTransparency = 1
+            avatarImg.Image = "rbxthumb://type=AvatarHeadShot&id=" .. plr.UserId .. "&w=100&h=100"
+            avatarImg.Parent = option
+
+            local nameBtn = Instance.new("TextButton")
+            nameBtn.Size = UDim2.new(1, -40, 1, 0)
+            nameBtn.Position = UDim2.new(0, 36, 0, 0)
+            nameBtn.BackgroundTransparency = 1
+            nameBtn.Text = plr.Name
+            nameBtn.TextColor3 = Color3.new(1, 1, 1)
+            nameBtn.Font = Enum.Font.Gotham
+            nameBtn.TextSize = 13
+            nameBtn.TextXAlignment = Enum.TextXAlignment.Left
+            nameBtn.AutoButtonColor = true
+            nameBtn.Parent = option
+
+            nameBtn.MouseButton1Click:Connect(function()
+                playerName.Text = plr.Name
+                avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. plr.UserId .. "&w=100&h=100"
+                dropdown.Visible = false
+            end)
+        end
+    end
+end
+
+selectorFrame.MouseButton1Click:Connect(function()
+    dropdown.Visible = not dropdown.Visible
+    if dropdown.Visible then
+        updateDropdown()
+    end
+e
