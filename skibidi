@@ -1,53 +1,20 @@
--- FULL FAKE GAG TRADE SCAM MENU GUI (LOOKS LIKE IMAGE)
+-- GAG TRADE SCAM UI - WITH DROPDOWN + TOGGLE + MASTER ON/OFF
 
 if game.CoreGui:FindFirstChild("GAGScamUI") then
     game.CoreGui.GAGScamUI:Destroy()
 end
 
+local Players = game:GetService("Players")
 local gui = Instance.new("ScreenGui", game.CoreGui)
 gui.Name = "GAGScamUI"
 gui.ResetOnSpawn = false
 
--- Main Frame
 local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0, 320, 0, 360)
-frame.Position = UDim2.new(0.5, -160, 0.5, -180)
+frame.Size = UDim2.new(0, 320, 0, 450)
+frame.Position = UDim2.new(0.5, -160, 0.5, -225)
 frame.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
 frame.BorderSizePixel = 0
-
-local corner = Instance.new("UICorner", frame)
-corner.CornerRadius = UDim.new(0, 12)
-
--- Drag
-local UIS = game:GetService("UserInputService")
-local dragging, dragInput, dragStart, startPos
-
-frame.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		dragging = true
-		dragStart = input.Position
-		startPos = frame.Position
-
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then
-				dragging = false
-			end
-		end)
-	end
-end)
-
-frame.InputChanged:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseMovement then
-		dragInput = input
-	end
-end)
-
-UIS.InputChanged:Connect(function(input)
-	if input == dragInput and dragging then
-		local delta = input.Position - dragStart
-		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
-end)
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
 
 -- Title
 local title = Instance.new("TextLabel", frame)
@@ -58,7 +25,6 @@ title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Size = UDim2.new(1, 0, 0, 40)
 title.BackgroundTransparency = 1
 
--- Subtitle
 local subtitle = Instance.new("TextLabel", frame)
 subtitle.Text = "Made by MozilOnTop"
 subtitle.Font = Enum.Font.Gotham
@@ -71,57 +37,115 @@ subtitle.BackgroundTransparency = 1
 -- Avatar
 local avatar = Instance.new("ImageLabel", frame)
 avatar.Size = UDim2.new(0, 60, 0, 60)
-avatar.Position = UDim2.new(0, 20, 0, 60)
-avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. game.Players.LocalPlayer.UserId .. "&w=420&h=420"
+avatar.Position = UDim2.new(0.5, -30, 0, 55)
+avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. Players.LocalPlayer.UserId .. "&w=420&h=420"
 avatar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", avatar).CornerRadius = UDim.new(1, 0)
 
-local avCorner = Instance.new("UICorner", avatar)
-avCorner.CornerRadius = UDim.new(1, 0)
+-- Dropdown: Player select
+local dropdown = Instance.new("TextButton", frame)
+dropdown.Size = UDim2.new(0, 280, 0, 35)
+dropdown.Position = UDim2.new(0.5, -140, 0, 130)
+dropdown.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+dropdown.Font = Enum.Font.Gotham
+dropdown.TextSize = 16
+dropdown.Text = "Select Player"
+Instance.new("UICorner", dropdown).CornerRadius = UDim.new(0, 6)
 
--- Username
-local uname = Instance.new("TextLabel", frame)
-uname.Position = UDim2.new(0, 90, 0, 70)
-uname.Size = UDim2.new(0, 200, 0, 30)
-uname.Text = game.Players.LocalPlayer.Name
-uname.TextColor3 = Color3.fromRGB(255, 255, 255)
-uname.TextSize = 18
-uname.Font = Enum.Font.Gotham
-uname.BackgroundTransparency = 1
+local dropFrame = Instance.new("Frame", dropdown)
+dropFrame.Position = UDim2.new(0, 0, 1, 0)
+dropFrame.Size = UDim2.new(1, 0, 0, 0)
+dropFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+dropFrame.ClipsDescendants = true
+dropFrame.Visible = false
+dropFrame.ZIndex = 2
+Instance.new("UIListLayout", dropFrame).Padding = UDim.new(0, 2)
 
--- Function: Create Styled Toggle Button
-local function createToggle(label, y)
-	local btn = Instance.new("TextButton", frame)
-	btn.Size = UDim2.new(0, 280, 0, 35)
-	btn.Position = UDim2.new(0, 20, 0, y)
-	btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-	btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-	btn.Font = Enum.Font.Gotham
-	btn.TextSize = 16
-	btn.Text = label
-	btn.AutoButtonColor = false
+for _, player in pairs(Players:GetPlayers()) do
+    local item = Instance.new("TextButton", dropFrame)
+    item.Size = UDim2.new(1, 0, 0, 25)
+    item.Text = player.Name
+    item.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    item.TextColor3 = Color3.fromRGB(255, 255, 255)
+    item.Font = Enum.Font.Gotham
+    item.TextSize = 14
+    item.ZIndex = 3
+    Instance.new("UICorner", item).CornerRadius = UDim.new(0, 4)
 
-	local corner = Instance.new("UICorner", btn)
-	corner.CornerRadius = UDim.new(0, 6)
-
-	local toggleState = false
-	btn.MouseButton1Click:Connect(function()
-		toggleState = not toggleState
-		btn.TextColor3 = toggleState and Color3.fromRGB(0, 255, 127) or Color3.fromRGB(255, 255, 255)
-		btn.Text = label .. (toggleState and " ✅" or "")
-	end)
+    item.MouseButton1Click:Connect(function()
+        dropdown.Text = player.Name
+        dropFrame.Visible = false
+        dropFrame.Size = UDim2.new(1, 0, 0, 0)
+    end)
 end
 
--- Add buttons
-createToggle("Freeze Trade", 130)
-createToggle("Auto-Injected", 175)
-createToggle("Speed Bypass", 220)
+dropdown.MouseButton1Click:Connect(function()
+    dropFrame.Visible = not dropFrame.Visible
+    dropFrame.Size = dropFrame.Visible and UDim2.new(1, 0, 0, #Players:GetPlayers() * 27) or UDim2.new(1, 0, 0, 0)
+end)
+
+-- Function: Toggle switch
+local function createToggle(name, y)
+    local toggle = Instance.new("Frame", frame)
+    toggle.Size = UDim2.new(0, 280, 0, 35)
+    toggle.Position = UDim2.new(0.5, -140, 0, y)
+    toggle.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    Instance.new("UICorner", toggle).CornerRadius = UDim.new(0, 6)
+
+    local label = Instance.new("TextLabel", toggle)
+    label.Text = name
+    label.Size = UDim2.new(1, -50, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextSize = 16
+    label.Font = Enum.Font.Gotham
+    label.BackgroundTransparency = 1
+
+    local btn = Instance.new("TextButton", toggle)
+    btn.Size = UDim2.new(0, 40, 0, 20)
+    btn.Position = UDim2.new(1, -50, 0.5, -10)
+    btn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    btn.Text = ""
+    btn.AutoButtonColor = false
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(1, 0)
+
+    local on = false
+    btn.MouseButton1Click:Connect(function()
+        on = not on
+        btn.BackgroundColor3 = on and Color3.fromRGB(0, 255, 127) or Color3.fromRGB(100, 100, 100)
+    end)
+end
+
+-- Toggle Buttons
+createToggle("Freeze Trade", 180)
+createToggle("Auto-Injected", 225)
+createToggle("Speed Bypass", 270)
+
+-- Master ON/OFF Button
+local masterBtn = Instance.new("TextButton", frame)
+masterBtn.Size = UDim2.new(0, 280, 0, 35)
+masterBtn.Position = UDim2.new(0.5, -140, 0, 320)
+masterBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+masterBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+masterBtn.Font = Enum.Font.GothamBold
+masterBtn.TextSize = 18
+masterBtn.Text = "MASTER OFF"
+Instance.new("UICorner", masterBtn).CornerRadius = UDim.new(0, 6)
+
+local masterOn = false
+masterBtn.MouseButton1Click:Connect(function()
+    masterOn = not masterOn
+    masterBtn.Text = masterOn and "MASTER ON ✅" or "MASTER OFF"
+    masterBtn.BackgroundColor3 = masterOn and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(60, 60, 60)
+end)
 
 -- Warning
 local warn = Instance.new("TextLabel", frame)
-warn.Size = UDim2.new(1, 0, 0, 40)
-warn.Position = UDim2.new(0, 0, 0, 270)
 warn.Text = "⚠️ Only Use When In Trade ‼️"
-warn.TextColor3 = Color3.fromRGB(255, 50, 50)
+warn.Size = UDim2.new(1, 0, 0, 30)
+warn.Position = UDim2.new(0, 0, 0, 370)
+warn.TextColor3 = Color3.fromRGB(255, 60, 60)
 warn.Font = Enum.Font.GothamBold
 warn.TextSize = 14
 warn.BackgroundTransparency = 1
