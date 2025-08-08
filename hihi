@@ -1,0 +1,69 @@
+if game.CoreGui:FindFirstChild("ScamMenu") then
+    game.CoreGui.ScamMenu:Destroy()
+end
+
+-- Tạo GUI chính
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ScamMenu"
+ScreenGui.Parent = game.CoreGui
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 400, 0, 300)
+Frame.Position = UDim2.new(0.5, -200, 0.5, -150)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.BorderSizePixel = 0
+Frame.Parent = ScreenGui
+
+local Title = Instance.new("TextLabel")
+Title.Text = "🌱 Grow a Garden - Hack Menu 🌱"
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 24
+Title.TextColor3 = Color3.fromRGB(0, 255, 127)
+Title.BackgroundTransparency = 1
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Parent = Frame
+
+local options = {
+    "Auto Water Plants",
+    "Max Growth Speed",
+    "Spawn Rare Seeds",
+    "Infinite Coins",
+    "Invisible to Enemies",
+    "Teleport to Boss Plant",
+    "Nuke Garden (👀)",
+}
+
+for i, text in ipairs(options) do
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, -40, 0, 30)
+    btn.Position = UDim2.new(0, 20, 0, 40 + (i - 1) * 35)
+    btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Font = Enum.Font.SourceSans
+    btn.TextSize = 20
+    btn.Text = text
+    btn.Parent = Frame
+
+    btn.MouseButton1Click:Connect(function()
+        btn.Text = text .. " - ❌ FAILED"
+        btn.TextColor3 = Color3.fromRGB(255, 0, 0)
+        wait(1)
+        btn.Text = text
+        btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end)
+end
+
+-- Thêm nút đóng
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "X"
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.Font = Enum.Font.SourceSansBold
+closeBtn.TextSize = 18
+closeBtn.Parent = Frame
+
+closeBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
