@@ -1,0 +1,127 @@
+-- FULL FAKE GAG TRADE SCAM MENU GUI (LOOKS LIKE IMAGE)
+
+if game.CoreGui:FindFirstChild("GAGScamUI") then
+    game.CoreGui.GAGScamUI:Destroy()
+end
+
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "GAGScamUI"
+gui.ResetOnSpawn = false
+
+-- Main Frame
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 320, 0, 360)
+frame.Position = UDim2.new(0.5, -160, 0.5, -180)
+frame.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+frame.BorderSizePixel = 0
+
+local corner = Instance.new("UICorner", frame)
+corner.CornerRadius = UDim.new(0, 12)
+
+-- Drag
+local UIS = game:GetService("UserInputService")
+local dragging, dragInput, dragStart, startPos
+
+frame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = frame.Position
+
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+frame.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		dragInput = input
+	end
+end)
+
+UIS.InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		local delta = input.Position - dragStart
+		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+end)
+
+-- Title
+local title = Instance.new("TextLabel", frame)
+title.Text = "🐺 GAG TRADE SCAM 🌶️"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 20
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Size = UDim2.new(1, 0, 0, 40)
+title.BackgroundTransparency = 1
+
+-- Subtitle
+local subtitle = Instance.new("TextLabel", frame)
+subtitle.Text = "Made by MozilOnTop"
+subtitle.Font = Enum.Font.Gotham
+subtitle.TextSize = 14
+subtitle.TextColor3 = Color3.fromRGB(180, 180, 180)
+subtitle.Position = UDim2.new(0, 0, 0, 32)
+subtitle.Size = UDim2.new(1, 0, 0, 20)
+subtitle.BackgroundTransparency = 1
+
+-- Avatar
+local avatar = Instance.new("ImageLabel", frame)
+avatar.Size = UDim2.new(0, 60, 0, 60)
+avatar.Position = UDim2.new(0, 20, 0, 60)
+avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. game.Players.LocalPlayer.UserId .. "&w=420&h=420"
+avatar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+
+local avCorner = Instance.new("UICorner", avatar)
+avCorner.CornerRadius = UDim.new(1, 0)
+
+-- Username
+local uname = Instance.new("TextLabel", frame)
+uname.Position = UDim2.new(0, 90, 0, 70)
+uname.Size = UDim2.new(0, 200, 0, 30)
+uname.Text = game.Players.LocalPlayer.Name
+uname.TextColor3 = Color3.fromRGB(255, 255, 255)
+uname.TextSize = 18
+uname.Font = Enum.Font.Gotham
+uname.BackgroundTransparency = 1
+
+-- Function: Create Styled Toggle Button
+local function createToggle(label, y)
+	local btn = Instance.new("TextButton", frame)
+	btn.Size = UDim2.new(0, 280, 0, 35)
+	btn.Position = UDim2.new(0, 20, 0, y)
+	btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	btn.Font = Enum.Font.Gotham
+	btn.TextSize = 16
+	btn.Text = label
+	btn.AutoButtonColor = false
+
+	local corner = Instance.new("UICorner", btn)
+	corner.CornerRadius = UDim.new(0, 6)
+
+	local toggleState = false
+	btn.MouseButton1Click:Connect(function()
+		toggleState = not toggleState
+		btn.TextColor3 = toggleState and Color3.fromRGB(0, 255, 127) or Color3.fromRGB(255, 255, 255)
+		btn.Text = label .. (toggleState and " ✅" or "")
+	end)
+end
+
+-- Add buttons
+createToggle("Freeze Trade", 130)
+createToggle("Auto-Injected", 175)
+createToggle("Speed Bypass", 220)
+
+-- Warning
+local warn = Instance.new("TextLabel", frame)
+warn.Size = UDim2.new(1, 0, 0, 40)
+warn.Position = UDim2.new(0, 0, 0, 270)
+warn.Text = "⚠️ Only Use When In Trade ‼️"
+warn.TextColor3 = Color3.fromRGB(255, 50, 50)
+warn.Font = Enum.Font.GothamBold
+warn.TextSize = 14
+warn.BackgroundTransparency = 1
