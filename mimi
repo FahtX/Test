@@ -1,0 +1,165 @@
+-- GAG TRADE SCAM UI - MENU NÂNG CẤP (Phiên bản đẹp, không tác dụng thực tế)
+-- Tác giả: MozilOnTop - Yêu cầu tùy chỉnh bởi bạn
+
+if game.CoreGui:FindFirstChild("GAGScamUI") then
+    game.CoreGui.GAGScamUI:Destroy()
+end
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "GAGScamUI"
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 340, 0, 420)
+frame.Position = UDim2.new(0.5, -170, 0.5, -210)
+frame.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+frame.BorderSizePixel = 0
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
+
+-- Đóng menu (dấu X)
+local closeBtn = Instance.new("TextButton", frame)
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "❌"
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 18
+closeBtn.TextColor3 = Color3.fromRGB(255, 80, 80)
+closeBtn.BackgroundTransparency = 1
+closeBtn.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+-- Tiêu đề
+local title = Instance.new("TextLabel", frame)
+title.Text = "🐺 GAG TRADE SCAM 🌶️"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 20
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Size = UDim2.new(1, 0, 0, 40)
+title.BackgroundTransparency = 1
+
+local subtitle = Instance.new("TextLabel", frame)
+subtitle.Text = "Made by MozilOnTop"
+subtitle.Font = Enum.Font.Gotham
+subtitle.TextSize = 14
+subtitle.TextColor3 = Color3.fromRGB(180, 180, 180)
+subtitle.Position = UDim2.new(0, 0, 0, 30)
+subtitle.Size = UDim2.new(1, 0, 0, 20)
+subtitle.BackgroundTransparency = 1
+
+-- Khung chọn người chơi
+local dropdown = Instance.new("TextButton", frame)
+dropdown.Size = UDim2.new(0, 220, 0, 40)
+dropdown.Position = UDim2.new(0, 20, 0, 70)
+dropdown.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+dropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+dropdown.Font = Enum.Font.Gotham
+dropdown.TextSize = 16
+dropdown.Text = "Select Player"
+dropdown.AutoButtonColor = false
+Instance.new("UICorner", dropdown).CornerRadius = UDim.new(0, 6)
+
+-- Avatar của người chọn
+local avatar = Instance.new("ImageLabel", frame)
+avatar.Size = UDim2.new(0, 40, 0, 40)
+avatar.Position = UDim2.new(0, 250, 0, 70)
+avatar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=420&h=420"
+Instance.new("UICorner", avatar).CornerRadius = UDim.new(1, 0)
+
+-- Danh sách người chơi
+local dropFrame = Instance.new("Frame", dropdown)
+dropFrame.Position = UDim2.new(0, 0, 1, 0)
+dropFrame.Size = UDim2.new(1, 0, 0, 0)
+dropFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+dropFrame.ClipsDescendants = true
+dropFrame.Visible = false
+Instance.new("UIListLayout", dropFrame).Padding = UDim.new(0, 2)
+
+for _, player in pairs(Players:GetPlayers()) do
+    local item = Instance.new("TextButton", dropFrame)
+    item.Size = UDim2.new(1, 0, 0, 25)
+    item.Text = player.Name
+    item.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    item.TextColor3 = Color3.fromRGB(255, 255, 255)
+    item.Font = Enum.Font.Gotham
+    item.TextSize = 14
+    Instance.new("UICorner", item).CornerRadius = UDim.new(0, 4)
+
+    item.MouseButton1Click:Connect(function()
+        dropdown.Text = player.Name
+        avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. player.UserId .. "&w=420&h=420"
+        dropFrame.Visible = false
+        dropFrame.Size = UDim2.new(1, 0, 0, 0)
+    end)
+end
+
+dropdown.MouseButton1Click:Connect(function()
+    dropFrame.Visible = not dropFrame.Visible
+    dropFrame.Size = dropFrame.Visible and UDim2.new(1, 0, 0, #Players:GetPlayers() * 27) or UDim2.new(1, 0, 0, 0)
+end)
+
+-- Tạo Toggle đẹp
+local function createToggle(name, posY)
+    local toggle = Instance.new("Frame", frame)
+    toggle.Size = UDim2.new(0, 300, 0, 40)
+    toggle.Position = UDim2.new(0.5, -150, 0, posY)
+    toggle.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    Instance.new("UICorner", toggle).CornerRadius = UDim.new(0, 6)
+
+    local label = Instance.new("TextLabel", toggle)
+    label.Text = name
+    label.Size = UDim2.new(1, -60, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextSize = 16
+    label.Font = Enum.Font.Gotham
+    label.BackgroundTransparency = 1
+
+    local switch = Instance.new("Frame", toggle)
+    switch.Size = UDim2.new(0, 40, 0, 20)
+    switch.Position = UDim2.new(1, -50, 0.5, -10)
+    switch.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    switch.BorderSizePixel = 0
+    Instance.new("UICorner", switch).CornerRadius = UDim.new(1, 0)
+
+    local circle = Instance.new("Frame", switch)
+    circle.Size = UDim2.new(0, 16, 0, 16)
+    circle.Position = UDim2.new(0, 2, 0, 2)
+    circle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Instance.new("UICorner", circle).CornerRadius = UDim.new(1, 0)
+
+    local on = false
+    switch.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            on = not on
+            if on then
+                switch.BackgroundColor3 = Color3.fromRGB(0, 200, 100)
+                circle.Position = UDim2.new(1, -18, 0, 2)
+                circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            else
+                switch.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+                circle.Position = UDim2.new(0, 2, 0, 2)
+                circle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            end
+        end
+    end)
+end
+
+-- Các nút toggle
+createToggle("Freeze Trade", 130)
+createToggle("Auto-Injected", 180)
+createToggle("Speed Bypass", 230)
+
+-- Cảnh báo
+local warn = Instance.new("TextLabel", frame)
+warn.Text = "⚠️ Only Use When In Trade ‼️"
+warn.Size = UDim2.new(1, 0, 0, 30)
+warn.Position = UDim2.new(0, 0, 0, 350)
+warn.TextColor3 = Color3.fromRGB(255, 60, 60)
+warn.Font = Enum.Font.GothamBold
+warn.TextSize = 14
+warn.BackgroundTransparency = 1
