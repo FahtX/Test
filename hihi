@@ -1,69 +1,92 @@
-if game.CoreGui:FindFirstChild("ScamMenu") then
-    game.CoreGui.ScamMenu:Destroy()
+if game.CoreGui:FindFirstChild("FakeGAG") then
+    game.CoreGui.FakeGAG:Destroy()
 end
 
--- Tạo GUI chính
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "ScamMenu"
-ScreenGui.Parent = game.CoreGui
+-- GUI setup
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+ScreenGui.Name = "FakeGAG"
+ScreenGui.ResetOnSpawn = false
 
+-- Main Frame
 local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 400, 0, 300)
-Frame.Position = UDim2.new(0.5, -200, 0.5, -150)
+Frame.Parent = ScreenGui
+Frame.Size = UDim2.new(0, 320, 0, 300)
+Frame.Position = UDim2.new(0.5, -160, 0.5, -150)
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Frame.BorderSizePixel = 0
-Frame.Parent = ScreenGui
+Frame.ClipsDescendants = true
 
-local Title = Instance.new("TextLabel")
-Title.Text = "🌱 Grow a Garden - Hack Menu 🌱"
-Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 24
-Title.TextColor3 = Color3.fromRGB(0, 255, 127)
-Title.BackgroundTransparency = 1
+-- UICorner
+local corner = Instance.new("UICorner", Frame)
+corner.CornerRadius = UDim.new(0, 10)
+
+-- Title
+local Title = Instance.new("TextLabel", Frame)
 Title.Size = UDim2.new(1, 0, 0, 40)
-Title.Parent = Frame
+Title.Text = "🐺 GAG TRADE SCAM 🌶️"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 20
+Title.Font = Enum.Font.GothamBold
+Title.BackgroundTransparency = 1
 
-local options = {
-    "Auto Water Plants",
-    "Max Growth Speed",
-    "Spawn Rare Seeds",
-    "Infinite Coins",
-    "Invisible to Enemies",
-    "Teleport to Boss Plant",
-    "Nuke Garden (👀)",
-}
+-- Subtitle
+local Subtitle = Instance.new("TextLabel", Frame)
+Subtitle.Size = UDim2.new(1, 0, 0, 20)
+Subtitle.Position = UDim2.new(0, 0, 0, 35)
+Subtitle.Text = "Made by FahtXToilet"
+Subtitle.TextColor3 = Color3.fromRGB(200, 200, 200)
+Subtitle.TextSize = 14
+Subtitle.Font = Enum.Font.Gotham
+Subtitle.BackgroundTransparency = 1
 
-for i, text in ipairs(options) do
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, -40, 0, 30)
-    btn.Position = UDim2.new(0, 20, 0, 40 + (i - 1) * 35)
-    btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.Font = Enum.Font.SourceSans
-    btn.TextSize = 20
-    btn.Text = text
-    btn.Parent = Frame
+-- Username Box
+local Username = Instance.new("TextBox", Frame)
+Username.Size = UDim2.new(1, -40, 0, 30)
+Username.Position = UDim2.new(0, 20, 0, 65)
+Username.Text = "mozilontop001"
+Username.TextColor3 = Color3.fromRGB(255, 255, 255)
+Username.TextSize = 16
+Username.Font = Enum.Font.Gotham
+Username.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Username.BorderSizePixel = 0
 
-    btn.MouseButton1Click:Connect(function()
-        btn.Text = text .. " - ❌ FAILED"
-        btn.TextColor3 = Color3.fromRGB(255, 0, 0)
-        wait(1)
-        btn.Text = text
-        btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    end)
+local uc = Instance.new("UICorner", Username)
+uc.CornerRadius = UDim.new(0, 6)
+
+-- Function to create toggles
+local function createToggle(text, yPosition)
+	local toggle = Instance.new("TextButton", Frame)
+	toggle.Size = UDim2.new(1, -40, 0, 30)
+	toggle.Position = UDim2.new(0, 20, 0, yPosition)
+	toggle.Text = text
+	toggle.TextSize = 16
+	toggle.Font = Enum.Font.Gotham
+	toggle.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+	toggle.BorderSizePixel = 0
+
+	local corner = Instance.new("UICorner", toggle)
+	corner.CornerRadius = UDim.new(0, 6)
+
+	local isOn = false
+	toggle.MouseButton1Click:Connect(function()
+		isOn = not isOn
+		toggle.TextColor3 = isOn and Color3.fromRGB(0, 255, 127) or Color3.fromRGB(255, 255, 255)
+		toggle.Text = text .. (isOn and " ✅" or "")
+	end)
 end
 
--- Thêm nút đóng
-local closeBtn = Instance.new("TextButton")
-closeBtn.Size = UDim2.new(0, 30, 0, 30)
-closeBtn.Position = UDim2.new(1, -35, 0, 5)
-closeBtn.Text = "X"
-closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeBtn.Font = Enum.Font.SourceSansBold
-closeBtn.TextSize = 18
-closeBtn.Parent = Frame
+-- Toggles
+createToggle("Freeze Trade", 105)
+createToggle("Auto-Injected", 145)
+createToggle("Speed Bypass", 185)
 
-closeBtn.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
+-- Warning Label
+local warning = Instance.new("TextLabel", Frame)
+warning.Size = UDim2.new(1, -40, 0, 20)
+warning.Position = UDim2.new(0, 20, 0, 230)
+warning.Text = "⚠️ Only Use When In Trade ‼️"
+warning.TextColor3 = Color3.fromRGB(255, 50, 50)
+warning.TextSize = 14
+warning.Font = Enum.Font.GothamBold
+warning.BackgroundTransparency = 1
