@@ -1,0 +1,119 @@
+if game.CoreGui:FindFirstChild("GAG_GUI") then
+    game.CoreGui.GAG_GUI:Destroy()
+end
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local GUI = Instance.new("ScreenGui", game.CoreGui)
+GUI.Name = "GAG_GUI"
+GUI.ResetOnSpawn = false
+
+local Frame = Instance.new("Frame", GUI)
+Frame.Size = UDim2.new(0, 320, 0, 360)
+Frame.Position = UDim2.new(0.5, -160, 0.5, -180)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.BorderSizePixel = 0
+
+local corner = Instance.new("UICorner", Frame)
+corner.CornerRadius = UDim.new(0, 14)
+
+-- Tiêu đề
+local Title = Instance.new("TextLabel", Frame)
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "🦝 GAG TRADE SCAM 🌶️"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+
+local SubTitle = Instance.new("TextLabel", Frame)
+SubTitle.Size = UDim2.new(1, 0, 0, 20)
+SubTitle.Position = UDim2.new(0, 0, 0, 30)
+SubTitle.BackgroundTransparency = 1
+SubTitle.Text = "Made by MozilOnTop"
+SubTitle.TextColor3 = Color3.fromRGB(170, 170, 170)
+SubTitle.Font = Enum.Font.Gotham
+SubTitle.TextSize = 14
+
+-- Avatar + Tên người chơi
+local Avatar = Instance.new("ImageLabel", Frame)
+Avatar.Size = UDim2.new(0, 40, 0, 40)
+Avatar.Position = UDim2.new(0, 20, 0, 60)
+Avatar.BackgroundTransparency = 1
+Avatar.Image = "rbxthumb://type=AvatarHeadShot&id="..LocalPlayer.UserId.."&w=100&h=100"
+
+local UserName = Instance.new("TextLabel", Frame)
+UserName.Size = UDim2.new(0.6, 0, 0, 40)
+UserName.Position = UDim2.new(0, 70, 0, 60)
+UserName.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+UserName.Text = LocalPlayer.Name
+UserName.TextColor3 = Color3.fromRGB(255, 255, 255)
+UserName.Font = Enum.Font.Gotham
+UserName.TextSize = 16
+UserName.TextXAlignment = Enum.TextXAlignment.Left
+
+local nameCorner = Instance.new("UICorner", UserName)
+nameCorner.CornerRadius = UDim.new(0, 6)
+
+-- Hàm tạo nút ON/OFF
+function createSwitch(text, yPosition, isOnDefault)
+    local container = Instance.new("Frame", Frame)
+    container.Size = UDim2.new(0.9, 0, 0, 40)
+    container.Position = UDim2.new(0.05, 0, 0, yPosition)
+    container.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    local containerCorner = Instance.new("UICorner", container)
+    containerCorner.CornerRadius = UDim.new(0, 8)
+
+    local label = Instance.new("TextLabel", container)
+    label.Text = text
+    label.Size = UDim2.new(0.7, 0, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 16
+    label.TextXAlignment = Enum.TextXAlignment.Left
+
+    local toggle = Instance.new("TextButton", container)
+    toggle.Size = UDim2.new(0, 50, 0, 24)
+    toggle.Position = UDim2.new(1, -60, 0.5, -12)
+    toggle.BackgroundColor3 = isOnDefault and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(90, 90, 90)
+    toggle.Text = ""
+    toggle.AutoButtonColor = false
+
+    local toggleCorner = Instance.new("UICorner", toggle)
+    toggleCorner.CornerRadius = UDim.new(1, 0)
+
+    local circle = Instance.new("Frame", toggle)
+    circle.Size = UDim2.new(0, 20, 0, 20)
+    circle.Position = isOnDefault and UDim2.new(1, -22, 0, 2) or UDim2.new(0, 2, 0, 2)
+    circle.BackgroundColor3 = isOnDefault and Color3.new(1, 1, 1) or Color3.new(0, 0, 0)
+    local circleCorner = Instance.new("UICorner", circle)
+    circleCorner.CornerRadius = UDim.new(1, 0)
+    circle.Parent = toggle
+
+    local state = isOnDefault
+    toggle.MouseButton1Click:Connect(function()
+        state = not state
+        toggle.BackgroundColor3 = state and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(90, 90, 90)
+        circle.Position = state and UDim2.new(1, -22, 0, 2) or UDim2.new(0, 2, 0, 2)
+        circle.BackgroundColor3 = state and Color3.new(1, 1, 1) or Color3.new(0, 0, 0)
+    end)
+end
+
+-- Tạo các dòng nút
+createSwitch("Freeze Trade", 120, false)
+createSwitch("Anti Detected", 170, true)
+createSwitch("Trade Failed Bypass", 220, true)
+
+-- Cảnh báo
+local warning = Instance.new("TextLabel", Frame)
+warning.Size = UDim2.new(1, 0, 0, 40)
+warning.Position = UDim2.new(0, 0, 1, -40)
+warning.BackgroundTransparency = 1
+warning.Text = "⚠️ Only Use When In Trade ‼️"
+warning.TextColor3 = Color3.fromRGB(255, 80, 80)
+warning.Font = Enum.Font.GothamBold
+warning.TextSize = 14
