@@ -1,0 +1,125 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local playerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+-- UI
+local screenGui = Instance.new("ScreenGui", playerGui)
+screenGui.ResetOnSpawn = false
+screenGui.Name = "FakeTradeMenu"
+
+local mainFrame = Instance.new("Frame", screenGui)
+mainFrame.Size = UDim2.new(0, 300, 0, 330)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -165)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+mainFrame.BorderSizePixel = 0
+mainFrame.ClipsDescendants = true
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 12)
+
+-- Close X
+local closeBtn = Instance.new("TextButton", mainFrame)
+closeBtn.Text = "X"
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.BackgroundTransparency = 1
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 20
+closeBtn.MouseButton1Click:Connect(function()
+	mainFrame.Visible = false
+end)
+
+-- Title
+local title = Instance.new("TextLabel", mainFrame)
+title.Text = "🐺 GAG TRADE SCAM 🌶️"
+title.Size = UDim2.new(1, 0, 0, 30)
+title.Position = UDim2.new(0, 0, 0, 5)
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+
+local subTitle = Instance.new("TextLabel", mainFrame)
+subTitle.Text = "Made by FahtXToilet Hub"
+subTitle.Size = UDim2.new(1, 0, 0, 20)
+subTitle.Position = UDim2.new(0, 0, 0, 35)
+subTitle.BackgroundTransparency = 1
+subTitle.TextColor3 = Color3.fromRGB(150, 150, 150)
+subTitle.Font = Enum.Font.Gotham
+subTitle.TextSize = 14
+
+-- Player Select Frame
+local playerSelect = Instance.new("Frame", mainFrame)
+playerSelect.Size = UDim2.new(0.9, 0, 0, 40)
+playerSelect.Position = UDim2.new(0.05, 0, 0, 65)
+playerSelect.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Instance.new("UICorner", playerSelect).CornerRadius = UDim.new(0, 8)
+
+local avatar = Instance.new("ImageLabel", playerSelect)
+avatar.Size = UDim2.new(0, 36, 0, 36)
+avatar.Position = UDim2.new(0, 2, 0, 2)
+avatar.BackgroundTransparency = 1
+avatar.Image = "rbxthumb://type=AvatarHeadShot&id="..LocalPlayer.UserId.."&w=100&h=100"
+
+local playerName = Instance.new("TextButton", playerSelect)
+playerName.Size = UDim2.new(1, -45, 1, 0)
+playerName.Position = UDim2.new(0, 45, 0, 0)
+playerName.BackgroundTransparency = 1
+playerName.Text = LocalPlayer.Name
+playerName.TextColor3 = Color3.new(1,1,1)
+playerName.Font = Enum.Font.Gotham
+playerName.TextSize = 16
+playerName.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Dropdown
+local dropdown = Instance.new("Frame", mainFrame)
+dropdown.Size = UDim2.new(0.9, 0, 0, 0)
+dropdown.Position = UDim2.new(0.05, 0, 0, 105)
+dropdown.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+dropdown.ClipsDescendants = true
+dropdown.Visible = false
+Instance.new("UICorner", dropdown).CornerRadius = UDim.new(0, 8)
+
+local open = false
+playerName.MouseButton1Click:Connect(function()
+	open = not open
+	dropdown.Visible = open
+	local count = #Players:GetPlayers()
+	dropdown.Size = open and UDim2.new(0.9, 0, 0, math.clamp(count * 28, 0, 140)) or UDim2.new(0.9, 0, 0, 0)
+end)
+
+for _, plr in pairs(Players:GetPlayers()) do
+	if plr ~= LocalPlayer then
+		local option = Instance.new("TextButton", dropdown)
+		option.Size = UDim2.new(1, 0, 0, 28)
+		option.BackgroundTransparency = 1
+		option.Text = plr.Name
+		option.TextColor3 = Color3.new(1,1,1)
+		option.Font = Enum.Font.Gotham
+		option.TextSize = 14
+
+		option.MouseButton1Click:Connect(function()
+			playerName.Text = plr.Name
+			avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. plr.UserId .. "&w=100&h=100"
+			dropdown.Visible = false
+			open = false
+		end)
+	end
+end
+
+-- Function tạo nút bật/tắt
+local function createToggle(name, yPos)
+	local holder = Instance.new("Frame", mainFrame)
+	holder.Size = UDim2.new(0.9, 0, 0, 40)
+	holder.Position = UDim2.new(0.05, 0, 0, yPos)
+	holder.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+	Instance.new("UICorner", holder).CornerRadius = UDim.new(0, 8)
+
+	local label = Instance.new("TextLabel", holder)
+	label.Text = name
+	label.Size = UDim2.new(0.7, 0, 1, 0)
+	label.BackgroundTransparency = 1
+	label.TextColor3 = Color3.new(1,1,1)
+	label.Font = Enum.Font.Gotham
+	label.TextSize = 16
+	label.TextXAlignment = Enum.TextXAlignment.Left
+	label.Posit
