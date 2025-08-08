@@ -1,181 +1,170 @@
--- Roblox GUI Script: GAG TRADE SCAM (Fake visual only)
--- Author: MozilOnTop (UI only, no real functionality)
+-- Gag Trade Scam GUI Script (Fake GUI for visuals only)
+-- By MozilOnTop
 
--- Services
 local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
--- GUI Setup
-local ScreenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
-ScreenGui.Name = "GagTradeGui"
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "GagTradeScamUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = PlayerGui
 
 -- Main Frame
-local mainFrame = Instance.new("Frame", ScreenGui)
-mainFrame.Size = UDim2.new(0, 300, 0, 320)
-mainFrame.Position = UDim2.new(0.5, -150, 0.5, -160)
-mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 300, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.BorderSizePixel = 0
-mainFrame.ClipsDescendants = true
-mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-mainFrame.BackgroundTransparency = 0.1
 mainFrame.Name = "MainFrame"
+mainFrame.Parent = screenGui
+
+-- UICorner
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 8)
+corner.Parent = mainFrame
 
 -- Close Button
-local closeBtn = Instance.new("TextButton", mainFrame)
-closeBtn.Size = UDim2.new(0, 25, 0, 25)
-closeBtn.Position = UDim2.new(1, -30, 0, 5)
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 24, 0, 24)
+closeBtn.Position = UDim2.new(1, -28, 0, 4)
 closeBtn.Text = "X"
-closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
 closeBtn.TextColor3 = Color3.new(1, 1, 1)
-closeBtn.Font = Enum.Font.GothamBold
-closeBtn.TextSize = 14
+closeBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeBtn.Parent = mainFrame
 closeBtn.MouseButton1Click:Connect(function()
-	mainFrame.Visible = false
+    screenGui:Destroy()
 end)
 
 -- Title
-local title = Instance.new("TextLabel", mainFrame)
-title.Size = UDim2.new(1, 0, 0, 30)
-title.Position = UDim2.new(0, 0, 0, 5)
+local title = Instance.new("TextLabel")
+title.Text = "🦜 GAG TRADE SCAM 🌶"
+title.Size = UDim2.new(1, -10, 0, 30)
+title.Position = UDim2.new(0, 5, 0, 5)
 title.BackgroundTransparency = 1
-title.Text = "🦝 GAG TRADE SCAM 🌶"
-title.TextColor3 = Color3.new(1, 1, 1)
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 18
-\-- Subtitle
-local sub = Instance.new("TextLabel", mainFrame)
-sub.Size = UDim2.new(1, 0, 0, 20)
-sub.Position = UDim2.new(0, 0, 0, 30)
-sub.BackgroundTransparency = 1
-sub.Text = "Made by MozilOnTop"
-sub.TextColor3 = Color3.fromRGB(180, 180, 180)
-sub.Font = Enum.Font.Gotham
-sub.TextSize = 13
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = mainFrame
 
--- Player Selection
-local selectFrame = Instance.new("Frame", mainFrame)
-selectFrame.Size = UDim2.new(0.9, 0, 0, 40)
-selectFrame.Position = UDim2.new(0.05, 0, 0, 60)
-selectFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-selectFrame.BorderSizePixel = 0
+-- Player Selector Frame
+local selectorFrame = Instance.new("Frame")
+selectorFrame.Size = UDim2.new(0.95, 0, 0, 40)
+selectorFrame.Position = UDim2.new(0.025, 0, 0, 40)
+selectorFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+selectorFrame.Parent = mainFrame
 
-local avatar = Instance.new("ImageLabel", selectFrame)
-avatar.Size = UDim2.new(0, 30, 0, 30)
-avatar.Position = UDim2.new(0, 5, 0, 5)
+local avatar = Instance.new("ImageLabel")
+avatar.Size = UDim2.new(0, 32, 0, 32)
+avatar.Position = UDim2.new(0, 4, 0.5, -16)
 avatar.BackgroundTransparency = 1
 avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=100&h=100"
+avatar.Parent = selectorFrame
 
-local playerName = Instance.new("TextButton", selectFrame)
-playerName.Size = UDim2.new(1, -40, 1, 0)
-playerName.Position = UDim2.new(0, 40, 0, 0)
+local playerName = Instance.new("TextLabel")
+playerName.Size = UDim2.new(1, -42, 1, 0)
+playerName.Position = UDim2.new(0, 42, 0, 0)
 playerName.BackgroundTransparency = 1
 playerName.Text = LocalPlayer.Name
-playerName.TextColor3 = Color3.new(1,1,1)
-playerName.Font = Enum.Font.GothamBold
+playerName.TextColor3 = Color3.new(1, 1, 1)
+playerName.Font = Enum.Font.Gotham
 playerName.TextSize = 14
+playerName.TextXAlignment = Enum.TextXAlignment.Left
+playerName.Parent = selectorFrame
 
-local dropdown = Instance.new("Frame", selectFrame)
-dropdown.Position = UDim2.new(0, 0, 1, 0)
-dropdown.Size = UDim2.new(0.9, 0, 0, 0)
-dropdown.BackgroundColor3 = Color3.fromRGB(35,35,35)
-dropdown.BorderSizePixel = 0
+-- Dropdown for player list
+local dropdown = Instance.new("Frame")
+dropdown.Size = UDim2.new(0.95, 0, 0, 0)
+dropdown.Position = UDim2.new(0.025, 0, 0, 80)
+dropdown.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 dropdown.Visible = false
+dropdown.ClipsDescendants = true
+dropdown.Parent = mainFrame
 
--- Dropdown Update Function
 local function updateDropdown()
-	for _, child in pairs(dropdown:GetChildren()) do
-		if child:IsA("TextButton") then
-			child:Destroy()
-		end
-	end
-
-	for _, plr in pairs(Players:GetPlayers()) do
-		if plr ~= LocalPlayer then
-			local option = Instance.new("TextButton")
-			option.Size = UDim2.new(1, 0, 0, 28)
-			option.BackgroundTransparency = 1
-			option.Text = plr.Name
-			option.TextColor3 = Color3.new(1,1,1)
-			option.Font = Enum.Font.Gotham
-			option.TextSize = 14
-			option.Parent = dropdown
-
-			option.MouseButton1Click:Connect(function()
-				playerName.Text = plr.Name
-				avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. plr.UserId .. "&w=100&h=100"
-				dropdown.Visible = false
-			end)
-		end
-	end
+    for _, child in pairs(dropdown:GetChildren()) do
+        if child:IsA("TextButton") then child:Destroy() end
+    end
+    for _, plr in pairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer then
+            local option = Instance.new("TextButton")
+            option.Size = UDim2.new(1, 0, 0, 28)
+            option.BackgroundTransparency = 1
+            option.Text = plr.Name
+            option.TextColor3 = Color3.new(1, 1, 1)
+            option.Font = Enum.Font.Gotham
+            option.TextSize = 14
+            option.Parent = dropdown
+            option.MouseButton1Click:Connect(function()
+                playerName.Text = plr.Name
+                avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. plr.UserId .. "&w=100&h=100"
+                dropdown.Visible = false
+            end)
+        end
+    end
 end
 
-local open = false
-playerName.MouseButton1Click:Connect(function()
-	open = not open
-	if open then
-		updateDropdown()
-	end
-	dropdown.Visible = open
-	dropdown.Size = open and UDim2.new(0.9, 0, 0, math.clamp(#Players:GetPlayers() * 28, 0, 140)) or UDim2.new(0.9, 0, 0, 0)
+selectorFrame.MouseButton1Click:Connect(function()
+    dropdown.Visible = not dropdown.Visible
+    updateDropdown()
 end)
 
--- Fake Feature Toggles
-local function createToggle(text, posY)
-	local toggleFrame = Instance.new("Frame", mainFrame)
-	toggleFrame.Size = UDim2.new(0.9, 0, 0, 30)
-	toggleFrame.Position = UDim2.new(0.05, 0, 0, posY)
-	toggleFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-	toggleFrame.BorderSizePixel = 0
+-- Reusable Toggle Button
+local function createToggleButton(name, yPos)
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0.95, 0, 0, 36)
+    frame.Position = UDim2.new(0.025, 0, 0, yPos)
+    frame.BackgroundTransparency = 1
+    frame.Parent = mainFrame
 
-	local label = Instance.new("TextLabel", toggleFrame)
-	label.Size = UDim2.new(0.7, 0, 1, 0)
-	label.Position = UDim2.new(0.05, 0, 0, 0)
-	label.BackgroundTransparency = 1
-	label.Text = text
-	label.TextColor3 = Color3.new(1,1,1)
-	label.Font = Enum.Font.Gotham
-	label.TextSize = 14
+    local label = Instance.new("TextLabel")
+    label.Text = name
+    label.Size = UDim2.new(0.7, 0, 1, 0)
+    label.Position = UDim2.new(0, 0, 0, 0)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.Font = Enum.Font.Gotham
+    label.TextSize = 14
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = frame
 
-	local toggle = Instance.new("TextButton", toggleFrame)
-	toggle.Size = UDim2.new(0, 40, 0, 20)
-	toggle.Position = UDim2.new(1, -50, 0.5, -10)
-	toggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-	toggle.BorderSizePixel = 0
-	toggle.Text = ""
+    local toggle = Instance.new("TextButton")
+    toggle.Size = UDim2.new(0, 40, 0, 20)
+    toggle.Position = UDim2.new(1, -44, 0.5, -10)
+    toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    toggle.Text = ""
+    toggle.AutoButtonColor = false
+    toggle.Parent = frame
 
-	local knob = Instance.new("Frame", toggle)
-	knob.Size = UDim2.new(0, 16, 0, 16)
-	knob.Position = UDim2.new(0, 2, 0, 2)
-	knob.BackgroundColor3 = Color3.new(0,0,0)
-	knob.BorderSizePixel = 0
+    local knob = Instance.new("Frame")
+    knob.Size = UDim2.new(0, 16, 0, 16)
+    knob.Position = UDim2.new(0, 2, 0, 2)
+    knob.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    knob.Parent = toggle
 
-	local on = false
-	toggle.MouseButton1Click:Connect(function()
-		on = not on
-		if on then
-			toggle.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-			knob.Position = UDim2.new(1, -18, 0, 2)
-			knob.BackgroundColor3 = Color3.new(1,1,1)
-		else
-			toggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-			knob.Position = UDim2.new(0, 2, 0, 2)
-			knob.BackgroundColor3 = Color3.new(0,0,0)
-		end
-	end)
+    local toggled = false
+    toggle.MouseButton1Click:Connect(function()
+        toggled = not toggled
+        toggle.BackgroundColor3 = toggled and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(50, 50, 50)
+        knob.Position = toggled and UDim2.new(1, -18, 0, 2) or UDim2.new(0, 2, 0, 2)
+        knob.BackgroundColor3 = toggled and Color3.new(1, 1, 1) or Color3.new(0, 0, 0)
+    end)
 end
 
--- Create Fake Toggles
-createToggle("Freeze Trade", 110)
-createToggle("Anti Detected", 150)
-createToggle("Trade Failed Bypass", 190)
+-- Create Toggle Buttons
+createToggleButton("Freeze Trade", 130)
+createToggleButton("Anti Detected", 170)
+createToggleButton("Trade Failed Bypass", 210)
 
--- Warning
-local warn = Instance.new("TextLabel", mainFrame)
-warn.Size = UDim2.new(1, 0, 0, 30)
-warn.Position = UDim2.new(0, 0, 1, -30)
-warn.BackgroundTransparency = 1
-warn.Text = "⚠️ Only Use When In Trade ❗"
-warn.TextColor3 = Color3.fromRGB(255, 85, 85)
-warn.Font = Enum.Font.GothamBold
-warn.TextSize = 14
+-- Warning label
+local warning = Instance.new("TextLabel")
+warning.Text = "⚠ Only Use When In Trade !!"
+warning.Size = UDim2.new(1, 0, 0, 30)
+warning.Position = UDim2.new(0, 0, 1, -30)
+warning.BackgroundTransparency = 1
+warning.TextColor3 = Color3.fromRGB(255, 80, 80)
+warning.Font = Enum.Font.GothamBold
+warning.TextSize = 14
+warning.Parent = mainFrame
